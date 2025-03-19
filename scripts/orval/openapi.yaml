@@ -1,0 +1,3691 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "xcroll REST API",
+    "version": "1.0.0",
+    "description": "Welcome to xcroll Rest API"
+  },
+  "paths": {
+    "/auth/authenticate/token/refresh": {
+      "post": {
+        "operationId": "auth_authenticate_token_refresh_create",
+        "description": "리프레시 토큰을 이용하여 새로운 액세스 토큰을 발급합니다.",
+        "summary": "Get Access Token with Refresh Token",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRefresh"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRefresh"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRefresh"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessToken"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/authenticate/user-id": {
+      "post": {
+        "operationId": "auth_authenticate_user_id_create",
+        "summary": "Authenticate with username",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNameAuthRequest"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNameAuthRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserNameAuthRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JWT"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/email-check": {
+      "post": {
+        "operationId": "auth_email_check_create",
+        "description": "회원가입 시 사용하려고 하는 이메일로 받은 인증번호가 알맞는지 확인합니다.  \nPOST /auth/email-send 후에 사용해야 합니다.이후 POST /auth/signup API를 통해 회원가입을 진행합니다.",
+        "summary": "이메일 인증번호 확인",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailCheck"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailCheck"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailCheck"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/email-send": {
+      "post": {
+        "operationId": "auth_email_send_create",
+        "description": "회원가입 시 사용하려고 하는 이메일을 입력하여 인증번호를 전송합니다.  \n이미 가입된 이메일인 경우 에러를 반환합니다.  \n이후 POST /auth/email-check 를 통해 인증번호를 확인합니다.",
+        "summary": "이메일 전송",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailSend"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailSend"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EmailSend"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/find-password/email-check": {
+      "post": {
+        "operationId": "auth_find_password_email_check_create",
+        "description": "비밀번호를 찾기 위해 POST /auth/find-password/email-send 를 통해 받은 인증번호를 검증합니다.  \n인증번호가 유효하면 새로운 비밀번호를 이메일로 발송합니다.",
+        "summary": "비밀번호 찾기를 위한 인증번호 검증 + 새 비밀번호 발송",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCodeForFindPassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCodeForFindPassword"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyCodeForFindPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/find-password/email-send": {
+      "post": {
+        "operationId": "auth_find_password_email_send_create",
+        "description": "비밀번호를 찾기 위해 가입한 이메일로 인증번호를 발송합니다.",
+        "summary": "비밀번호 찾기를 위한 인증번호 이메일 발송",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailForFindPassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailForFindPassword"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmailForFindPassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "operationId": "auth_signup_create",
+        "description": "회원가입을 진행합니다.  \nPOST auth/email 시리즈, POST /auth/username-check 를 한 뒤에 사용해야 합니다.",
+        "summary": "회원가입",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signup"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Signup"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Signup"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Signup"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/username-check": {
+      "post": {
+        "operationId": "auth_username_check_create",
+        "description": "회원가입 시 사용하려고 하는 아이디를 입력하여 사용 가능 여부를 확인합니다.  \n사용 가능한 아이디인 경우 is_can: true 를 반환합니다.",
+        "summary": "아이디 중복 확인",
+        "tags": [
+          "auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsernameCheck"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UsernameCheck"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsernameCheck"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsernameCheck"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/comment": {
+      "get": {
+        "operationId": "comment_list",
+        "description": "댓글 리스트를 조회합니다.  \n삭제된 댓글은 상황에 따라 content 값이 '삭제된 댓글입니다.'라고 텍스트 대치 처리가 되며 user 값이 null 처리됩니다.  \n* 대댓글아 삭제됐을 경우  \n  * 텍스트 대치 처리가 됩니다.  \n* 부모 댓글이 삭제됐을 경우  \n  * 대댓글이 없을 경우엔 조회되지 않습니다.  \n  * 대댓글이 있을 경우 텍스트 대치 처리가 됩니다.  \nfilter 로 유저 아이디, 비디오 아이디, 대댓글이 아닌 댓글 유무, 대댓글의 부모 댓글 id 를 사용할 수 있습니다.  \n* 대댓글 조회 시 parent_id 를 사용합니다.  \n* 부모 댓글 조회 시 is_parent 를 true 로 지정합니다.  \n특정 비디오의 댓글을 조회할 땐 is_parent 를 true 로 지정하고 video_data id 를 사용합니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get Comments List",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "is_parent",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "부모 댓글 여부.  \n이 필터가 True 이면 부모 댓글만 조회합니다.  \n부모 댓글이란 parent_id 가 NULL 인 댓글을 의미합니다."
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "parent_id",
+            "schema": {
+              "type": "number"
+            },
+            "description": "부모 댓글 ID."
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "video_data",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUserCommentsList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "comment_create",
+        "description": "댓글을 작성합니다.  \n대댓글을 작성할 시 parent_id 를 지정합니다.",
+        "summary": "Create Comments",
+        "tags": [
+          "comment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserComments"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserComments"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserComments"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserComments"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/comment/{id}": {
+      "get": {
+        "operationId": "comment_retrieve",
+        "description": "특정 댓글을 조회합니다.",
+        "summary": "Get Comment Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user comments.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserComments"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "comment_partial_update",
+        "description": "특정 댓글을 수정합니다.  \n본인의 댓글만 수정할 수 있습니다.",
+        "summary": "Update Comment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user comments.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserComments"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserComments"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserComments"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserComments"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "operationId": "comment_destroy",
+        "description": "특정 댓글을 삭제합니다.  \n본인의 댓글만 삭제할 수 있습니다.",
+        "summary": "Delete Comment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user comments.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "comment"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/like-history": {
+      "get": {
+        "operationId": "like_history_list",
+        "description": "좋아요 기록 리스트를 조회합니다.  \nfilter 로 유저 아이디를 사용할 수 있습니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get Like History List",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "like_type",
+            "schema": {
+              "type": "string",
+              "title": "좋아요 타입",
+              "enum": [
+                "dislike",
+                "like"
+              ]
+            },
+            "description": "* `like` - 좋아요\n* `dislike` - 싫어요"
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "like-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedLikeHistoryList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "like_history_create",
+        "description": "좋아요 기록을 생성합니다.",
+        "summary": "Create Like History",
+        "tags": [
+          "like-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LikeHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/LikeHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/LikeHistory"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikeHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/like-history/{id}": {
+      "get": {
+        "operationId": "like_history_retrieve",
+        "description": "특정 좋아요 기록을 조회합니다.",
+        "summary": "Get Like History Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this like history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "like-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikeHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "like_history_partial_update",
+        "description": "특정 좋아요 기록을 수정합니다.  \n본인의 좋아요 기록만 수정할 수 있습니다.",
+        "summary": "Update Like History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this like history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "like-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLikeHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLikeHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLikeHistory"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikeHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "operationId": "like_history_destroy",
+        "description": "특정 좋아요 기록을 삭제합니다.  \n본인의 좋아요 기록만 삭제할 수 있습니다.",
+        "summary": "Delete Like History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this like history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "like-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/point": {
+      "post": {
+        "operationId": "point_create",
+        "description": "특정 상황에 따른 포인트를 입금합니다.",
+        "summary": "포인트 입금",
+        "tags": [
+          "point"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InputPoint"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/InputPoint"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/InputPoint"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/point/{id}": {
+      "get": {
+        "operationId": "point_retrieve",
+        "description": "현재 포인트를 확인합니다.  \n**me** Path Parameter 를 사용하면 현재 로그인한 유저의 포인트를 확인할 수 있습니다.  \n오늘자, 어제자 얻은 포인트는 /post 에서 확인할 수 있습니다.",
+        "summary": "내 포인트 조회",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "flag",
+            "schema": {
+              "type": "string"
+            },
+            "description": "조회하고자 하는 포인트를 적습니다.  \n000: all, 001: 회원가입, 002: 추천포인트, 003: 출석,  \n004 : 동영상, 005: 좋아요, 006: 스클롤 포인트, 007: 롤업포인트",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "point"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPoint"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/point/history/{id}": {
+      "get": {
+        "operationId": "point_history_retrieve",
+        "description": "오늘자, 어제자 얻은 포인트와 더불어 포인트 이력을 확인합니다.  \n**me** Path Parameter 를 사용하면 현재 로그인한 유저의 포인트 이력을 확인할 수 있습니다.",
+        "summary": "포인트 이력/최근 2일 얻은 포인트 조회",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "point"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserPointHistory"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/search-history": {
+      "get": {
+        "operationId": "search_history_list",
+        "description": "유저 검색 기록 리스트를 조회합니다.  \nfilter 로 유저 아이디를 사용할 수 있습니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get User Search History List",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "search-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUserSearchHistoryList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "search_history_create",
+        "description": "특정 유저의 검색 기록을 생성합니다.",
+        "summary": "Create User Search History",
+        "tags": [
+          "search-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSearchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/search-history/{id}": {
+      "get": {
+        "operationId": "search_history_retrieve",
+        "description": "특정 유저의 검색 기록을 조회합니다.",
+        "summary": "Get User Search History Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user search history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "search-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSearchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "operationId": "search_history_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user search history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "search-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSearchHistory"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSearchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "search_history_partial_update",
+        "description": "특정 유저의 검색 기록을 수정합니다.  \n본인의 검색 기록만 수정할 수 있습니다.",
+        "summary": "Update User Search History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user search history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "search-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserSearchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserSearchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserSearchHistory"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSearchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user": {
+      "get": {
+        "operationId": "user_list",
+        "description": "유저 리스트를 조회합니다.  \nsearch 로 유저 아이디를 검색할 수 있습니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get User List",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "A search term.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUserList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "operationId": "user_retrieve",
+        "description": "특정 유저의 상세 정보를 조회합니다.  \n**me** Path Parameter 를 사용하면 현재 로그인한 유저의 정보를 조회할 수 있습니다.",
+        "summary": "Get User Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "operationId": "user_destroy",
+        "description": "회원 탈퇴합니다. **me** Path Parameter 로 본인만 가능합니다.",
+        "summary": "회원 탈퇴",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/user/change-password": {
+      "post": {
+        "operationId": "user_change_password_create",
+        "description": "비밀번호를 변경합니다.  \n기존 비밀번호와 더불어 신규 비밀번호를 같이 입력해야 합니다.",
+        "summary": "비밀번호 변경",
+        "tags": [
+          "user"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassword"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassword"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePassword"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No response body"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/referral-list/{id}": {
+      "get": {
+        "operationId": "user_referral_list_retrieve",
+        "description": "내 추천 횟수 리스트를 조회합니다.  \n**me** Path Parameter 를 사용하면 현재 로그인한 유저의 추천 횟수 리스트를 조회할 수 있습니다.",
+        "summary": "내 추천 횟수 조회",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "pattern": "^[^/]+$"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserReferralList"
+                }
+              }
+            },
+            "description": ""
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserValidationError"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/video-data": {
+      "get": {
+        "operationId": "video_data_list",
+        "description": "비디오 리스트를 조회합니다.  \ncontent_type 으로 필터링 가능합니다.  \nsearch 로 영상 이름, 영상 설명을 검색할 수 있습니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get Video Data List",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "content_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "LONGTUBE",
+                "REELS",
+                "SHORTS",
+                "TIKTOK"
+              ]
+            },
+            "description": "* `LONGTUBE` - 롱튜브\n* `SHORTS` - 유튜브 쇼츠\n* `REELS` - 인스타릴스\n* `TIKTOK` - 틱톡컨텐츠"
+          },
+          {
+            "in": "query",
+            "name": "external_video_id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "A search term.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "video-data"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedVideoDataList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "video_data_create",
+        "description": "새로운 비디오 데이터를 생성합니다.",
+        "summary": "Create Video Data",
+        "tags": [
+          "video-data"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoData"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoData"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/VideoData"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoData"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/video-data/{id}": {
+      "get": {
+        "operationId": "video_data_retrieve",
+        "description": "특정 비디오의 상세 정보를 조회합니다.",
+        "summary": "Get Video Data Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this video data.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "video-data"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoData"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "video_data_partial_update",
+        "description": "특정 비디오의 정보를 수정합니다.",
+        "summary": "Update Video Data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this video data.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "video-data"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedVideoData"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedVideoData"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedVideoData"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoData"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "operationId": "video_data_destroy",
+        "description": "특정 비디오를 삭제합니다.  \n마스터 계정만 가능합니다.",
+        "summary": "Delete Video Data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this video data.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "video-data"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        }
+      }
+    },
+    "/watch-history": {
+      "get": {
+        "operationId": "watch_history_list",
+        "description": "유저 시청 기록 리스트를 조회합니다.  \nfilter 로 유저 아이디를 사용할 수 있습니다.  \nordering 으로 id, create_time 으로 정렬할 수 있습니다. 최신순(내림차순)은 -create_time 입니다.",
+        "summary": "Get User Watch History List",
+        "parameters": [
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "ordering",
+            "required": false,
+            "in": "query",
+            "description": "Which field to use when ordering the results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "user",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "watch-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedUserWatchHistoryList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "post": {
+        "operationId": "watch_history_create",
+        "description": "특정 유저의 시청 기록을 생성합니다.",
+        "summary": "Create User Watch History",
+        "tags": [
+          "watch-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserWatchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/watch-history/{id}": {
+      "get": {
+        "operationId": "watch_history_retrieve",
+        "description": "특정 유저 시청 기록을 조회합니다.",
+        "summary": "Get User Watch History Detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user watch history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "watch-history"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserWatchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "put": {
+        "operationId": "watch_history_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user watch history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "watch-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UserWatchHistory"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserWatchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      },
+      "patch": {
+        "operationId": "watch_history_partial_update",
+        "description": "특정 유저 시청 기록을 수정합니다.  \n본인의 시청 기록만 수정할 수 있습니다.",
+        "summary": "Update User Watch History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this user watch history.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "watch-history"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserWatchHistory"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserWatchHistory"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedUserWatchHistory"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          },
+          {
+            "BearerAuth": {
+              "type": "http",
+              "scheme": "bearer",
+              "bearerFormat": "JWT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserWatchHistory"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChangePassword": {
+        "type": "object",
+        "properties": {
+          "old_password": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "기존 비밀번호"
+          },
+          "new_password": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "새 비밀번호"
+          },
+          "new_password_confirm": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "새 비밀번호 확인"
+          }
+        },
+        "required": [
+          "new_password",
+          "new_password_confirm",
+          "old_password"
+        ]
+      },
+      "ContentTypeEnum": {
+        "enum": [
+          "LONGTUBE",
+          "SHORTS",
+          "REELS",
+          "TIKTOK"
+        ],
+        "type": "string",
+        "description": "* `LONGTUBE` - 롱튜브\n* `SHORTS` - 유튜브 쇼츠\n* `REELS` - 인스타릴스\n* `TIKTOK` - 틱톡컨텐츠"
+      },
+      "EmailCheck": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "writeOnly": true,
+            "title": "이메일 주소"
+          },
+          "verification_code": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "인증번호",
+            "maxLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "verification_code"
+        ]
+      },
+      "EmailSend": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "이메일 주소"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "GetAccessToken": {
+        "type": "object",
+        "properties": {
+          "access": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "access_expiration": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Access Token Expiration Time"
+          }
+        },
+        "required": [
+          "access",
+          "access_expiration"
+        ]
+      },
+      "History": {
+        "type": "object",
+        "properties": {
+          "rstype": {
+            "type": "string",
+            "readOnly": true,
+            "title": "포인트 구분"
+          },
+          "rsdate": {
+            "type": "string",
+            "readOnly": true,
+            "title": "날짜"
+          },
+          "points": {
+            "type": "string",
+            "readOnly": true,
+            "title": "포인트",
+            "description": "소수점의 포인트를 문자열로 표시합니다."
+          }
+        },
+        "required": [
+          "points",
+          "rsdate",
+          "rstype"
+        ]
+      },
+      "InputPoint": {
+        "type": "object",
+        "properties": {
+          "point": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "입금할 포인트",
+            "description": "입금할 포인트를 소수점 단위의 string 타입으로 입력합니다.  \n1 이상의 값으로 입력해야 합니다.  \n총 16자리 중 정수 부분 10자리, 소수 부분 6자리까지 입력 가능합니다.",
+            "maxLength": 17
+          },
+          "note": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "내용",
+            "description": "동영상 제목 등 기타 내용을 입력합니다."
+          },
+          "flag": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "포인트 구분",
+            "description": "포인트 구분을 입력합니다.  \n0: 동영상 시청 P, 1: 좋아요/싫어요 P, 2: 스크롤 P",
+            "maxLength": 1
+          }
+        },
+        "required": [
+          "flag",
+          "note",
+          "point"
+        ]
+      },
+      "JWT": {
+        "type": "object",
+        "properties": {
+          "access": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "refresh": {
+            "type": "string",
+            "title": "Refresh Token"
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserAuthDetail"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          }
+        },
+        "required": [
+          "access",
+          "refresh",
+          "user"
+        ]
+      },
+      "LikeHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "like_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LikeTypeEnum"
+              }
+            ],
+            "title": "좋아요 타입"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "create_time",
+          "id",
+          "user",
+          "video_data",
+          "video_data_id"
+        ]
+      },
+      "LikeTypeEnum": {
+        "enum": [
+          "like",
+          "dislike"
+        ],
+        "type": "string",
+        "description": "* `like` - 좋아요\n* `dislike` - 싫어요"
+      },
+      "PaginatedLikeHistoryList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LikeHistory"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "PaginatedUserCommentsList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserComments"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "PaginatedUserList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "PaginatedUserSearchHistoryList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserSearchHistory"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "PaginatedUserWatchHistoryList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserWatchHistory"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "PaginatedVideoDataList": {
+        "type": "object",
+        "properties": {
+          "paging": {
+            "type": "object",
+            "properties": {
+              "page": {
+                "type": "integer",
+                "example": 1
+              },
+              "total": {
+                "type": "integer",
+                "example": 100
+              },
+              "size": {
+                "type": "integer",
+                "example": 20
+              },
+              "next": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "example": 40
+              }
+            },
+            "required": [
+              "page",
+              "total",
+              "size"
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VideoData"
+            }
+          }
+        },
+        "required": [
+          "paging",
+          "items"
+        ]
+      },
+      "Parent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForComment"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "content": {
+            "type": "string",
+            "title": "댓글 내용",
+            "description": "최대 500자까지 허용합니다.",
+            "maxLength": 500
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "content",
+          "create_time",
+          "id",
+          "user"
+        ]
+      },
+      "PatchedLikeHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "like_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LikeTypeEnum"
+              }
+            ],
+            "title": "좋아요 타입"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedUserComments": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForComment"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoData"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "content": {
+            "type": "string",
+            "title": "댓글 내용",
+            "description": "최대 500자까지 허용합니다.",
+            "maxLength": 500
+          },
+          "parent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Parent"
+              }
+            ],
+            "readOnly": true,
+            "title": "부모 댓글 정보"
+          },
+          "parent_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "nullable": true,
+            "title": "부모 댓글 ID",
+            "description": "대댓글인 경우, 부모 댓글의 ID를 입력합니다."
+          },
+          "replies_count": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "대댓글 수",
+            "description": "이 댓글에 달린 대댓글 수입니다. 0이라면 대댓글이 없습니다."
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedUserSearchHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "search_text": {
+            "type": "string",
+            "title": "검색어",
+            "maxLength": 120
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedUserWatchHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "시작 시간"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "title": "종료 시간"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedVideoData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 설명"
+          },
+          "external_video_id": {
+            "type": "string",
+            "title": "외부 비디오 ID",
+            "description": "유튜브, 인스타그램, 틱톡 등의 그 서비스 고유 구분자 id",
+            "maxLength": 120
+          },
+          "content_type": {
+            "$ref": "#/components/schemas/ContentTypeEnum"
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 태그 정보 (API)"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 카테고리 정보 (API)"
+          },
+          "api_response": {
+            "type": "string",
+            "nullable": true,
+            "title": "API 응답 전체값",
+            "description": "JSON.stringify"
+          }
+        }
+      },
+      "SendEmailForFindPassword": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "가입한 아이디"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "writeOnly": true,
+            "title": "가입한 이메일"
+          }
+        },
+        "required": [
+          "email",
+          "username"
+        ]
+      },
+      "Signup": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "아이디",
+            "maxLength": 50
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "비밀번호"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "이메일 주소"
+          },
+          "verification_code": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "이메일 인증번호",
+            "maxLength": 6
+          },
+          "referral": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "추천인 아이디",
+            "description": "추천한 사람의 아이디를 입력합니다.  \n만약 입력하지 않을 시 빈 문자열로 입력해야 합니다.",
+            "maxLength": 50
+          }
+        },
+        "required": [
+          "email",
+          "password",
+          "referral",
+          "username",
+          "verification_code"
+        ]
+      },
+      "TokenRefresh": {
+        "type": "object",
+        "properties": {
+          "access": {
+            "type": "string",
+            "readOnly": true
+          },
+          "refresh": {
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "access",
+          "refresh"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string",
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email address",
+            "maxLength": 254
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "last_login": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "nullable": true
+          },
+          "authorization_code": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true,
+            "title": "클라이언트 인증 코드"
+          },
+          "mb_referral_id": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true,
+            "title": "추천인 ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "authorization_code",
+          "create_time",
+          "id",
+          "last_login",
+          "mb_referral_id",
+          "password",
+          "username"
+        ]
+      },
+      "UserAuthDetail": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "유저 아이디"
+          },
+          "mb_referral_id": {
+            "type": "string",
+            "title": "추천인 아이디"
+          }
+        },
+        "required": [
+          "mb_referral_id",
+          "username"
+        ]
+      },
+      "UserComments": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForComment"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoData"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "content": {
+            "type": "string",
+            "title": "댓글 내용",
+            "description": "최대 500자까지 허용합니다.",
+            "maxLength": 500
+          },
+          "parent": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Parent"
+              }
+            ],
+            "readOnly": true,
+            "title": "부모 댓글 정보"
+          },
+          "parent_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "nullable": true,
+            "title": "부모 댓글 ID",
+            "description": "대댓글인 경우, 부모 댓글의 ID를 입력합니다."
+          },
+          "replies_count": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "대댓글 수",
+            "description": "이 댓글에 달린 대댓글 수입니다. 0이라면 대댓글이 없습니다."
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "content",
+          "create_time",
+          "id",
+          "parent",
+          "replies_count",
+          "user",
+          "video_data",
+          "video_data_id"
+        ]
+      },
+      "UserForComment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+          },
+          "last_login": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "nullable": true
+          },
+          "mb_referral_id": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true,
+            "title": "추천인 ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "create_time",
+          "id",
+          "last_login",
+          "mb_referral_id",
+          "username"
+        ]
+      },
+      "UserForHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
+          },
+          "last_login": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "nullable": true
+          },
+          "mb_referral_id": {
+            "type": "string",
+            "readOnly": true,
+            "nullable": true,
+            "title": "추천인 ID"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "create_time",
+          "id",
+          "last_login",
+          "mb_referral_id",
+          "username"
+        ]
+      },
+      "UserNameAuthRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "password",
+          "username"
+        ]
+      },
+      "UserPoint": {
+        "type": "object",
+        "properties": {
+          "point": {
+            "type": "string",
+            "readOnly": true,
+            "title": "포인트",
+            "description": "소수점의 포인트를 문자열로 표시합니다."
+          }
+        },
+        "required": [
+          "point"
+        ]
+      },
+      "UserPointHistory": {
+        "type": "object",
+        "properties": {
+          "total_points": {
+            "type": "string",
+            "readOnly": true,
+            "title": "총 포인트",
+            "description": "소수점의 포인트를 문자열로 표시합니다."
+          },
+          "today_points": {
+            "type": "string",
+            "readOnly": true,
+            "title": "오늘 쌓인 포인트",
+            "description": "소수점의 포인트를 문자열로 표시합니다."
+          },
+          "yesterday_points": {
+            "type": "string",
+            "readOnly": true,
+            "title": "어제 얻은 포인트(referral)",
+            "description": "어제자 얻은 포인트 중 추천인에 의해 쌓인 포인트를 의미합니다.  \n소수점의 포인트를 문자열로 표시합니다."
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/History"
+            },
+            "readOnly": true,
+            "title": "포인트 이력",
+            "description": "포인트 이력을 확인합니다."
+          }
+        },
+        "required": [
+          "history",
+          "today_points",
+          "total_points",
+          "yesterday_points"
+        ]
+      },
+      "UserReferralList": {
+        "type": "object",
+        "properties": {
+          "ret_1st": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "1st Level",
+            "description": "1st Level 의 추천 횟수입니다."
+          },
+          "ret_2nd": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "2nd~20th Level",
+            "description": "2nd~20th Level 의 추천 횟수입니다."
+          }
+        },
+        "required": [
+          "ret_1st",
+          "ret_2nd"
+        ]
+      },
+      "UserSearchHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "search_text": {
+            "type": "string",
+            "title": "검색어",
+            "maxLength": 120
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "create_time",
+          "id",
+          "search_text",
+          "user"
+        ]
+      },
+      "UserValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "에러 메시지"
+          },
+          "error_code": {
+            "type": "string",
+            "title": "에러 코드",
+            "description": "외부 API 에서 문제 생겼을 때만 뜹니다."
+          }
+        },
+        "required": [
+          "detail"
+        ]
+      },
+      "UserWatchHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "user": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "유저 정보"
+          },
+          "video_data_id": {
+            "type": "integer",
+            "writeOnly": true,
+            "title": "비디오 ID"
+          },
+          "video_data": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/VideoForHistory"
+              }
+            ],
+            "readOnly": true,
+            "title": "비디오 정보"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "시작 시간"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "title": "종료 시간"
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "create_time",
+          "id",
+          "start_time",
+          "user",
+          "video_data",
+          "video_data_id"
+        ]
+      },
+      "UsernameCheck": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "사용하려는 아이디",
+            "maxLength": 50
+          },
+          "is_can": {
+            "type": "boolean",
+            "readOnly": true,
+            "description": "사용 가능 여부"
+          }
+        },
+        "required": [
+          "is_can",
+          "username"
+        ]
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "에러 메시지"
+          },
+          "error_code": {
+            "type": "string",
+            "title": "에러 코드",
+            "description": "외부 API 에서 문제 생겼을 때만 뜹니다."
+          }
+        },
+        "required": [
+          "detail"
+        ]
+      },
+      "VerifyCodeForFindPassword": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "가입한 아이디"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "writeOnly": true,
+            "title": "가입한 이메일"
+          },
+          "verification_code": {
+            "type": "string",
+            "writeOnly": true,
+            "title": "인증번호",
+            "maxLength": 6
+          }
+        },
+        "required": [
+          "email",
+          "username",
+          "verification_code"
+        ]
+      },
+      "VideoData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "update_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 설명"
+          },
+          "external_video_id": {
+            "type": "string",
+            "title": "외부 비디오 ID",
+            "description": "유튜브, 인스타그램, 틱톡 등의 그 서비스 고유 구분자 id",
+            "maxLength": 120
+          },
+          "content_type": {
+            "$ref": "#/components/schemas/ContentTypeEnum"
+          },
+          "tag": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 태그 정보 (API)"
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "title": "영상 카테고리 정보 (API)"
+          },
+          "api_response": {
+            "type": "string",
+            "nullable": true,
+            "title": "API 응답 전체값",
+            "description": "JSON.stringify"
+          }
+        },
+        "required": [
+          "create_time",
+          "external_video_id",
+          "id",
+          "title",
+          "update_time"
+        ]
+      },
+      "VideoForHistory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "title": {
+            "type": "string",
+            "readOnly": true
+          },
+          "external_video_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "외부 비디오 ID",
+            "description": "유튜브, 인스타그램, 틱톡 등의 그 서비스 고유 구분자 id"
+          },
+          "content_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ContentTypeEnum"
+              }
+            ],
+            "readOnly": true
+          },
+          "create_time": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "content_type",
+          "create_time",
+          "external_video_id",
+          "id",
+          "title"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
